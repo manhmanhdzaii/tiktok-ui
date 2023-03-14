@@ -32,7 +32,7 @@ function Menu({ children, items = [], onChange = defaultFn }) {
           }}
         />
       );
-    });
+    })
   };
   return (
     <Tippy
