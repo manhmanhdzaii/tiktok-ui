@@ -5,7 +5,7 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
-import * as searchServices from "~/apiServices/searchServices";
+import * as searchServices from "~/services/searchService";
 
 import HeadLessTippy from "@tippyjs/react/headless";
 import { Wrapper as PopperWapper } from "~/components/Popper";
@@ -20,15 +20,15 @@ const cx = classNames.bind(styles);
 function Search() {
   const [searchValue, setsearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  const [showResult, setShowResult] = useState(true);
+  const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const deboundced = useDebounce(searchValue, 500);
+  const deboundcedValue = useDebounce(searchValue, 500);
 
   const inputRef = useRef();
 
   useEffect(() => {
-    if (!deboundced.trim()) {
+    if (!deboundcedValue.trim()) {
       setSearchResult([]);
       return;
     }
@@ -36,14 +36,14 @@ function Search() {
     const fetchApi = async () => {
       setLoading(true);
 
-      const result = await searchServices.search(deboundced);
+      const result = await searchServices.search(deboundcedValue);
       setSearchResult(result);
 
       setLoading(false);
     };
 
     fetchApi();
-  }, [deboundced]);
+  }, [deboundcedValue]);
 
   const handleClear = () => {
     setsearchValue("");
